@@ -74,7 +74,7 @@ function getdata() {
 </script>
 
 <template>
-    <el-card shade="never">
+    <el-card shadow="never">
         <!-- 在template中要加上 #header，否则将不会渲染这部分内容 -->
         <template #header>
             <div class="flex justify-between">

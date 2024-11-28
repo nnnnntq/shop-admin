@@ -3,20 +3,30 @@ import { ref, reactive } from "vue"
 import { useCookies } from '@vueuse/integrations/useCookies'//引入useCookies
 const cookie = useCookies()//用cookie接收useCookies
 
-//引入后台主页统计面板数据
-import { getStatistics1 } from "../api/api_index";
+//引入后台主页统计面板数据，卡片数据
+import { getStatistics1, getStatistics2 } from "../api/api_index";
 const panels = ref([])
 getStatistics1()
     .then(res => {
         panels.value = res.panels
-        console.log(" panels.value", panels.value)
+        // console.log(" panels.value", panels.value)
     })
+const goods = ref([])
+const order = ref([])
+getStatistics2().then(res => {
+    console.log("getStatistics2", res)
+    goods.value = res.goods
+    console.log("goods", goods)
+    order.value = res.order
+})
 //数字动画效果，引入子组件
 import CountTo from "../components/CountTo.vue";
 //引入分类组件indexNavs.vue
 import IndexNavs from "../components/IndexNavs.vue";
 //引入图表
 import indexChart from "../components/indexChart.vue";
+//引入子组件
+import indexCard from "../components/indexCard.vue"
 </script>
 
 
@@ -78,7 +88,10 @@ import indexChart from "../components/indexChart.vue";
             <el-col :span="12" :offset="0">
                 <indexChart />
             </el-col>
-            <el-col :span="12" :offset="0"></el-col>
+            <el-col :span="12" :offset="0">
+                <indexCard title="店铺及商品展示" tip="店铺及商品展示" :cardData="goods" class="mb-3" />
+                <indexCard title="交易提示" tip="需处理的交易订单" :cardData="order" />
+            </el-col>
         </el-row>
 
     </div>
